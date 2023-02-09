@@ -6,6 +6,8 @@ using namespace std;
 // Purpose: 
 // Date: Feb 8th, 2023
 
+const int DEFAULT_INDEX = -99999;
+
 class ColorClass
 {
   private:
@@ -86,11 +88,11 @@ class RowColumnClass
 {
   private:
     int rowIndex;
-    int columnIndex;
+    int colIndex;
 
   public:
 
-    // Default constructor
+    // Default constructor: set default row and column values
     RowColumnClass();
 
     // Value constructor: set the row and column values
@@ -122,9 +124,10 @@ class RowColumnClass
     int getCol() const;
 
     // Add the row and column index values in the input parameter to the object
+    // Use getter function to get the values of another object
     void addRowColTo(
       const RowColumnClass &inRowCol
-    )
+    );
 
     // Print the objects's attributes in the format "[<row>,<col>]"
     void printRowCol() const;
@@ -135,8 +138,77 @@ class RowColumnClass
 #else
 int main()
 {
+  RowColumnClass testRowCol;
+  RowColumnClass testRowColOther(111, 222);
+
+  //Test some basic RowColumnClass operations...
+  cout << "Want defaults: ";
+  testRowCol.printRowCol();
+  cout << endl;
+
+  testRowCol.setRowCol(2, 8);
+  cout << "Want 2,8: ";
+  testRowCol.printRowCol();
+  cout << endl;
+
+  cout << "Want 111, 222: ";
+  testRowColOther.printRowCol();
+  cout << endl;
+
+  testRowColOther.setRowCol(4, 2);
+  testRowCol.addRowColTo(testRowColOther);
+  cout << "Want 6,10: ";
+  testRowCol.printRowCol();
+  cout << endl;
   return 0;
 }
 #endif
 
+RowColumnClass::RowColumnClass()
+{
+  rowIndex = DEFAULT_INDEX;
+  colIndex = DEFAULT_INDEX;
+}
 
+RowColumnClass::RowColumnClass(const int inRow, const int inCol)
+{
+  rowIndex = inRow;
+  colIndex = inCol; 
+}
+
+void RowColumnClass::setRowCol(const int inRow, const int inCol)
+{
+  rowIndex = inRow;                                                              
+  colIndex = inCol;
+}
+
+void RowColumnClass::setRow(const int inRow)
+{
+  rowIndex = inRow; 
+}
+
+void RowColumnClass::setCol(const int inCol)
+{
+  colIndex = inCol;
+}
+
+int RowColumnClass::getRow() const
+{
+  return rowIndex;
+}
+
+int RowColumnClass::getCol() const
+{
+  return colIndex;
+}
+
+void RowColumnClass::addRowColTo(const RowColumnClass &inRowCol)
+{
+  rowIndex += inRowCol.getRow();
+  colIndex += inRowCol.getCol();
+}
+
+void RowColumnClass::printRowCol() const
+{
+  cout << "[" << rowIndex << "," << colIndex << "]";
+}
