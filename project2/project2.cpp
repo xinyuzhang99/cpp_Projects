@@ -6,7 +6,7 @@ using namespace std;
 // Purpose: 
 // Date: Feb 8th, 2023
 
-class ColorClass()
+class ColorClass
 {
   private:
     int redVal;
@@ -81,3 +81,62 @@ class ColorClass()
     // The format is "R: <red> G: <green> B: <blue>"
     void printComponentValues() const;   // a const member function
 };
+
+class RowColumnClass
+{
+  private:
+    int rowIndex;
+    int columnIndex;
+
+  public:
+
+    // Default constructor
+    RowColumnClass();
+
+    // Value constructor: set the row and column values
+    RowColumnClass(
+      const int inRow,    // the row value provided
+      const int inCol     // the column value provided
+    );
+
+    // Setter function: set the row and column attribute values
+    void setRowCol(
+      const int inRow,
+      const int inCol
+      );
+
+    // Setter function: set the row attribute value
+    void setRow(
+      const int inRow
+      );
+
+    // Setter function: set the column attribute value 
+    void setCol(
+      const int inCol
+      );
+
+    // Getter function: return the row attribute value
+    int getRow() const;
+
+    // Getter function: return the column attribute value
+    int getCol() const;
+
+    // Add the row and column index values in the input parameter to the object
+    void addRowColTo(
+      const RowColumnClass &inRowCol
+    )
+
+    // Print the objects's attributes in the format "[<row>,<col>]"
+    void printRowCol() const;
+};
+
+#ifdef ANDREW_TEST
+#include "andrewTest.h"
+#else
+int main()
+{
+  return 0;
+}
+#endif
+
+
