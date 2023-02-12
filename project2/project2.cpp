@@ -6,6 +6,9 @@ using namespace std;
 // Purpose: 
 // Date: Feb 8th, 2023
 
+const int MAXIMUM_ALLOWED_COLOR = 1000;
+const int MINIMUM_ALLOWED_COLOR = 0;
+const int COLOR_COMPONENT_NUMBER = 3;
 const int DEFAULT_INDEX = -99999;
 
 class ColorClass
@@ -15,12 +18,14 @@ class ColorClass
     int greenVal;
     int blueVal;
 
-    // clip RGB values to keep them inside the range [0, 1000]
-    void clipColor();
+    // Clip RGB values to keep them inside the range [0, 1000]
+    // Return true if clipping is implemented; otherwise return false
+    bool clipColor();
 
   public:
 
-    // Default constructor
+    // Default constructor: set the RGB values to the color full white
+    // Full red, full green and full blue
     ColorClass();        
 
     // Value constructor
@@ -32,18 +37,23 @@ class ColorClass
     );
 
     // Set the color's component color values to form black color
+    // No red, no green and no blue
     void setToBlack();
 
     // Set the color's component color values to form red color 
+    // Full red, no green and no blue
     void setToRed();
     
     // Set the color's component color values to form green color
+    // No red, full green and no blue 
     void setToGreen();
 
     // Set the color's component color values to form blue color 
+    // No red, no green and full blue
     void setToBlue();
 
     // Set the color's component color values to form white color  
+    // Full red, full green and full blue
     void setToWhite();
 
     // Set the color object's RGB values to the provided values
@@ -138,8 +148,29 @@ class RowColumnClass
 #else
 int main()
 {
+  ColorClass testColor;
   RowColumnClass testRowCol;
   RowColumnClass testRowColOther(111, 222);
+
+  //Test some basic ColorClass operations...
+  cout << "Initial: ";
+  testColor.printComponentValues();
+  cout << endl;
+
+  testColor.setToBlack();
+  cout << "Black: ";
+  testColor.printComponentValues();
+  cout << endl;
+
+  testColor.setToGreen();
+  cout << "Green: ";
+  testColor.printComponentValues();
+  cout << endl;
+
+  testColor.adjustBrightness(0.5);
+  cout << "Dimmer Green: ";
+  testColor.printComponentValues();
+  cout << endl;
 
   //Test some basic RowColumnClass operations...
   cout << "Want defaults: ";
@@ -163,6 +194,121 @@ int main()
   return 0;
 }
 #endif
+
+ColorClass::ColorClass()
+{
+  redVal = MAXIMUM_ALLOWED_COLOR;
+  greenVal = MAXIMUM_ALLOWED_COLOR; 
+  blueVal = MAXIMUM_ALLOWED_COLOR;
+}
+
+ColorClass::ColorClass(const int inRed, const int inGreen, const int inBlue)
+{
+  redVal = inRed;
+  greenVal = inGreen;
+  blueVal = inBlue;
+  clipColor();
+}
+
+bool ColorClass::clipColor()
+{
+  int colorVal[COLOR_COMPONENT_NUMBER] = {redVal, greenVal, blueVal};
+  bool doClip = false;    // a flag indicating if clipping is necessary
+  for (int i = 0; i < COLOR_COMPONENT_NUMBER; i++)
+  {
+    if (colorVal[i] < MINIMUM_ALLOWED_COLOR)
+    {
+      colorVal[i] = MINIMUM_ALLOWED_COLOR;
+      doClip = true;
+    }
+    if (colorVal[i] > MAXIMUM_ALLOWED_COLOR)
+    {
+      colorVal[i] = MAXIMUM_ALLOWED_COLOR;
+      doClip = true;
+    }
+  }
+  return doClip; 
+}
+
+void ColorClass::setToBlack()
+{
+  redVal = MINIMUM_ALLOWED_COLOR;
+  greenVal = MINIMUM_ALLOWED_COLOR;  
+  blueVal = MINIMUM_ALLOWED_COLOR;
+}
+
+void ColorClass::setToRed()
+{
+  redVal = MAXIMUM_ALLOWED_COLOR;
+  greenVal = MINIMUM_ALLOWED_COLOR;                                              
+  blueVal = MINIMUM_ALLOWED_COLOR;
+}
+
+void ColorClass::setToGreen()
+{
+  redVal = MINIMUM_ALLOWED_COLOR;
+  greenVal = MAXIMUM_ALLOWED_COLOR;
+  blueVal = MINIMUM_ALLOWED_COLOR; 
+}
+
+void ColorClass::setToBlue()
+{
+  redVal = MINIMUM_ALLOWED_COLOR;
+  greenVal = MINIMUM_ALLOWED_COLOR;
+  blueVal = MAXIMUM_ALLOWED_COLOR;
+}
+
+void ColorClass::setToWhite()
+{
+  redVal = MAXIMUM_ALLOWED_COLOR;
+  greenVal = MAXIMUM_ALLOWED_COLOR; 
+  blueVal = MAXIMUM_ALLOWED_COLOR;
+}
+
+bool ColorClass::setTo(const int inRed, const int inGreen, const int inBlue)
+{
+  redVal = inRed;
+  greenVal = inGreen;
+  blueVal = inBlue;
+  return clipColor();
+}
+
+bool ColorClass::setTo(const ColorClass &inColor)
+{
+  redVal = inColor.redVal;
+  greenVal = inColor.greenVal;
+  blueVal = inColor.blueVal;
+  return clipColor();
+}
+
+bool ColorClass::addColor(const ColorClass &rhsColor)
+{
+  redVal += rhsColor.redVal;
+  greenVal += rhsColor.greenVal;
+  blueVal += rhsColor.blueVal;
+  return clipColor();
+}
+
+bool ColorClass::subtractColor(const ColorClass &rhsColor)
+{
+  redVal -= rhsColor.redVal; 
+  greenVal -= rhsColor.greenVal;
+  blueVal -= rhsColor.blueVal;
+  return clipColor();
+}
+
+bool ColorClass::adjustBrightness(const double adjFactor)
+{
+  redVal = int(redVal * adjFactor);
+  greenVal = int(greenVal * adjFactor);
+  blueVal = int(blueVal * adjFactor);
+  return clipColor();
+}
+
+void ColorClass::printComponentValues() const
+{
+  cout << "R: " << redVal << " G: " << greenVal << " B: " << blueVal;
+}
 
 RowColumnClass::RowColumnClass()
 {
