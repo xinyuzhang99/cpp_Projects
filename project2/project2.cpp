@@ -136,6 +136,9 @@ class ImageClass
   private:
     ColorClass image[IMAGE_ROW][IMAGE_COLUMN];
 
+    // Check if the provided row/col in &inRowCol is in the image range
+    bool isLocationValid(RowColumnClass &inRowCol);
+
   public:
     // Default constructor: set all image pixels to be full black
     // No red, no green and no blue
@@ -157,12 +160,18 @@ class ImageClass
       const ImageClass imagesToAdd[]
       );
 
-    // Assign the 
+    // Assign the pixel value of &inColor at the location in &inRowCol
+    // If location is in the image range, assign and return true
+    // If location is out of the range, not modify the image and return false 
     bool setColorAtLocation(
       const RowColumnClass &inRowCol,
       const ColorClass &inColor
       );
 
+    // Set the image pixel value of &outColor to the image value
+    // at the location &inRowCol of the current object
+    // If location is in the image range, assign and return true
+    // If location is out of the range, not modify the output and return false
     bool getColorAtLocation(
       const RowColumnClass &inRowCol,
       ColorClass &outColor
