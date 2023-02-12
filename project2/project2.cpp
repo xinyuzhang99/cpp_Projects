@@ -103,7 +103,7 @@ class RowColumnClass
     RowColumnClass(
       const int inRow,    // the row value provided
       const int inCol     // the column value provided
-    );
+    ); 
 
     // Setter function: set the row and column attribute values
     void setRowCol(
@@ -143,8 +143,30 @@ class ImageClass
 
     // Assign all image pixels to the color provided in input parameter inColor
     void initializeTo(const ColorClass &inColor);
-
+ 
+    // Pixel-wise addition of the current image and the rhsImage
+    // Return true if clipping is needed, otherwise return false
     bool addImageTo(const ImageClass &rhsImage);
+
+    // Set the current image's pixel values as the sum of the corresponding 
+    // pixels of input images imagesToAdd[]
+    // numImgsToAdd indicates the number of the input images to be added
+    // Return true if clipping is needed, otherwise return false
+    bool addImages(
+      const int numImgsToAdd, 
+      const ImageClass imagesToAdd[]
+      );
+
+    // Assign the 
+    bool setColorAtLocation(
+      const RowColumnClass &inRowCol,
+      const ColorClass &inColor
+      );
+
+    bool getColorAtLocation(
+      const RowColumnClass &inRowCol,
+      ColorClass &outColor
+      ) const;
 };
 
 #ifdef ANDREW_TEST
