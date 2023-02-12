@@ -10,6 +10,8 @@ const int MAXIMUM_ALLOWED_COLOR = 1000;
 const int MINIMUM_ALLOWED_COLOR = 0;
 const int COLOR_COMPONENT_NUMBER = 3;
 const int DEFAULT_INDEX = -99999;
+const int IMAGE_ROW = 10;
+const int IMAGE_COLUMN = 18;
 
 class ColorClass
 {
@@ -67,27 +69,19 @@ class ColorClass
 
     // Copy the RGB values of another object of ColorClass
     // Return true if any clipping is necessary, otherwise return false
-    bool setTo(
-      const ColorClass &inColor
-    );
+    bool setTo(const ColorClass &inColor);
 
     // Add RGB values of the rhsColor object to the current object
     // Return true if any clipping is necessary, otherwise return false
-    bool addColor(
-      const ColorClass &rhsColor
-    );
+    bool addColor(const ColorClass &rhsColor);
 
     // Subtract RGB values of the rhsColor object from the current object 
     // Return true if any clipping is necessary, otherwise return false
-    bool subtractColor(
-      const ColorClass &rhsColor
-    );
+    bool subtractColor(const ColorClass &rhsColor);
 
     // Multiply each RGB value by the provided adjustment factor
     // Return true if any clipping is necessary, otherwise return false
-    bool adjustBrightness(
-      const double adjFactor
-    );
+    bool adjustBrightness(const double adjFactor);
 
     // Print the RGB component values to the console 
     // The format is "R: <red> G: <green> B: <blue>"
@@ -118,14 +112,10 @@ class RowColumnClass
       );
 
     // Setter function: set the row attribute value
-    void setRow(
-      const int inRow
-      );
+    void setRow(const int inRow);
 
     // Setter function: set the column attribute value 
-    void setCol(
-      const int inCol
-      );
+    void setCol(const int inCol);
 
     // Getter function: return the row attribute value
     int getRow() const;
@@ -135,12 +125,26 @@ class RowColumnClass
 
     // Add the row and column index values in the input parameter to the object
     // Use getter function to get the values of another object
-    void addRowColTo(
-      const RowColumnClass &inRowCol
-    );
+    void addRowColTo(const RowColumnClass &inRowCol);
 
     // Print the objects's attributes in the format "[<row>,<col>]"
     void printRowCol() const;
+};
+
+class ImageClass
+{
+  private:
+    ColorClass image[IMAGE_ROW][IMAGE_COLUMN];
+
+  public:
+    // Default constructor: set all image pixels to be full black
+    // No red, no green and no blue
+    ImageClass();
+
+    // Assign all image pixels to the color provided in input parameter inColor
+    void initializeTo(const ColorClass &inColor);
+
+    bool addImageTo(const ImageClass &rhsImage);
 };
 
 #ifdef ANDREW_TEST
