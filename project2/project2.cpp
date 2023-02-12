@@ -176,6 +176,9 @@ class ImageClass
       const RowColumnClass &inRowCol,
       ColorClass &outColor
       ) const;
+
+    // Print the image pixels 
+    void printImage() const;
 };
 
 #ifdef ANDREW_TEST
