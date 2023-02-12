@@ -136,8 +136,8 @@ class ImageClass
   private:
     ColorClass image[IMAGE_ROW][IMAGE_COLUMN];
 
-    // Check if the provided row/col in &inRowCol is in the image range
-    bool isLocationValid(RowColumnClass &inRowCol);
+    // Check if the provided location row/col is in the image range
+    bool isLocationValid(int row, int col);
 
   public:
     // Default constructor: set all image pixels to be full black
@@ -395,4 +395,89 @@ void RowColumnClass::addRowColTo(const RowColumnClass &inRowCol)
 void RowColumnClass::printRowCol() const
 {
   cout << "[" << rowIndex << "," << colIndex << "]";
+}
+
+ImageClass::ImageClass()
+{
+  for (int row = 0; row < IMAGE_ROW; row++)
+  {
+    for (int col = 0; col < IMAGE_COLUMN; col++)
+    {
+      image[row][col].setToBlack();
+    }
+  }
+}
+
+bool ImageClass::isLocationValid(int row, int col)
+{
+  return (row >= 0 && row < IMAGE_ROW && col >= 0 && col < IMAGE_COLUMN);
+}
+
+void ImageClass::initializeTo(const ColorClass &inColor)
+{
+  for (int row = 0; row < IMAGE_ROW; row++)   
+  {
+    for (int col = 0; col < IMAGE_COLUMN; col++)
+    {
+      image[row][col] = inColor;
+    }
+  }
+}
+
+bool ImageClass::addImageTo(const ImageClass &rhsImage)
+{
+  bool doClip = false;
+  for (int row = 0; row < IMAGE_ROW; row++)
+  {
+    for (int col = 0; col < IMAGE_COLUMN; col++)
+    {
+      doClip = doClip && image[row][col].addColor(rhsImage[row][col]); 
+    } 
+  }
+  return doClip;
+}
+
+bool ImageClass::addImages(const int numImgsToAdd, 
+      const ImageClass imagesToAdd[])
+{
+  bool doClip = false;
+  for (int row = 0; row < IMAGE_ROW; row++)
+  {
+    for (int col = 0; col < IMAGE_COLUMN; col++)
+    {
+      image[row][col].setToBlack();  // reset all pixel values to 0
+      for (int i = 0; i < numImgsToAdd; i++)
+      {
+        doClip = doClip && image[row][col].addColor(imagesToAdd[i][row][col]);
+      }
+    }
+  }
+  return doClip;
+}
+
+bool ImageClass::setColorAtLocation(
+      const RowColumnClass &inRowCol,
+      const ColorClass &inColor)
+{
+  int row = inRowCol.getRow();
+  int col = inRowCol.getCol();
+  if (isLocationValid(row, col))
+  {
+    image[row][col] = inColor;
+    return true;   
+  }
+  return false;
+}
+
+bool ImageClass::getColorAtLocation(const RowColumnClass &inRowCol,
+      ColorClass &outColor) const
+{
+  int row = inRowCol.getRow();
+  int col = inRowCol.getCol();
+  if (isLocationValid(row, col))
+  {
+    outColor = image[row][col];
+    return true;
+  }
+  return false;
 }
