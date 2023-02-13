@@ -364,6 +364,9 @@ bool ColorClass::clipColor()
       doClip = true;
     }
   }
+  redVal = colorVal[0];
+  greenVal = colorVal[1];
+  blueVal = colorVal[2];
   return doClip; 
 }
 
@@ -600,7 +603,7 @@ void ImageClass::printImage() const
       {
         cout << "--";
       }
-        image[row][col].printComponentValues();
+      image[row][col].printComponentValues();
     }
     cout << endl;
   } 
