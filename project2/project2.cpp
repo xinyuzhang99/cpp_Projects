@@ -139,6 +139,9 @@ class ImageClass
     // Check if the provided location row/col is in the image range
     bool isLocationValid(int row, int col);
 
+    bool addTwoPixels(int row, int col, const ImageClass imageA,
+                      const ImageClass imageB); 
+
   public:
     // Default constructor: set all image pixels to be full black
     // No red, no green and no blue
@@ -431,7 +434,14 @@ bool ImageClass::addImageTo(const ImageClass &rhsImage)
   {
     for (int col = 0; col < IMAGE_COLUMN; col++)
     {
-      doClip = doClip && image[row][col].addColor(rhsImage[row][col]); 
+      RowColumnClass inRowCol = RowColumnClass(row, col);
+      ColorClass outColor;
+      outColor.setToBlack();
+      rhsImage.getColorAtLocation(inRowCol, outColor);
+      if (image[row][col].addColor(outColor))
+      {
+        doClip = true;
+      }  
     } 
   }
   return doClip;
@@ -446,11 +456,15 @@ bool ImageClass::addImages(const int numImgsToAdd,
     for (int col = 0; col < IMAGE_COLUMN; col++)
     {
       image[row][col].setToBlack();  // reset all pixel values to 0
-      for (int i = 0; i < numImgsToAdd; i++)
-      {
-        doClip = doClip && image[row][col].addColor(imagesToAdd[i][row][col]);
-      }
     }
+  }
+      
+  for (int i = 0; i < numImgsToAdd; i++)
+  {
+    if (addImageTo(imagesToAdd[i]))
+    {
+      doClip = true;
+    }     
   }
   return doClip;
 }
@@ -476,8 +490,24 @@ bool ImageClass::getColorAtLocation(const RowColumnClass &inRowCol,
   int col = inRowCol.getCol();
   if (isLocationValid(row, col))
   {
-    outColor = image[row][col];
+    outColor = image[row][col]; 
     return true;
   }
   return false;
+}
+
+void ImageClass::printImage() const
+{
+  for (int row = 0; row < IMAGE_ROW; row++)
+  {
+    for (int col = 0; col < IMAGE_COLUMN; col++)  
+    {
+      if (col != 0)
+      {
+        cout << "--";
+        image[row][col].printComponentValues();
+      }
+    }
+    cout << endl;
+  } 
 }
