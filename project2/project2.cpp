@@ -136,11 +136,8 @@ class ImageClass
   private:
     ColorClass image[IMAGE_ROW][IMAGE_COLUMN];
 
-    // Check if the provided location row/col is in the image range
-    bool isLocationValid(int row, int col);
-
-    bool addTwoPixels(int row, int col, const ImageClass imageA,
-                      const ImageClass imageB); 
+    // Check if the provided row/col in &inRowCol is in the image range
+    bool isLocationValid(const RowColumnClass &inRowCol) const;
 
   public:
     // Default constructor: set all image pixels to be full black
@@ -192,6 +189,8 @@ int main()
   ColorClass testColor;
   RowColumnClass testRowCol;
   RowColumnClass testRowColOther(111, 222);
+  ImageClass testImage;
+  ImageClass testImages[3];
 
   //Test some basic ColorClass operations...
   cout << "Initial: ";
@@ -232,6 +231,103 @@ int main()
   cout << "Want 6,10: ";
   testRowCol.printRowCol();
   cout << endl;
+
+  //Test some basic ImageClass operations...
+  testColor.setToRed();
+  testImage.initializeTo(testColor);
+
+  testRowCol.setRowCol(555, 5);
+  cout << "Want: Color at [555,5]: Invalid Index!" << endl;
+  cout << "Color at ";
+  testRowCol.printRowCol();
+  cout << ": ";
+  if (testImage.getColorAtLocation(testRowCol, testColor))
+  {
+    testColor.printComponentValues();
+  }
+  else
+  {
+    cout << "Invalid Index!";
+  }
+  cout << endl;
+
+  testRowCol.setRow(4);
+  cout << "Want: Color at [4,5]: R: 1000 G: 0 B: 0" << endl;
+  cout << "Color at ";
+  testRowCol.printRowCol();
+  cout << ": ";
+  if (testImage.getColorAtLocation(testRowCol, testColor))
+  {
+    testColor.printComponentValues();
+  }
+  else
+  {
+    cout << "Invalid Index!";
+  }
+  cout << endl;
+
+  //Set up an array of images of different colors
+  testColor.setToRed();
+  testColor.adjustBrightness(0.25);
+  testImages[0].initializeTo(testColor);
+  testColor.setToBlue();
+  testColor.adjustBrightness(0.75);
+  testImages[1].initializeTo(testColor);
+  testColor.setToGreen();
+  testImages[2].initializeTo(testColor);
+
+  //Modify a few individual pixel colors
+  testRowCol.setRowCol(4, 2);
+  testColor.setToWhite();
+  testImages[1].setColorAtLocation(testRowCol, testColor);
+
+  testRowCol.setRowCol(2, 4);
+  testColor.setToBlack();
+  testImages[2].setColorAtLocation(testRowCol, testColor);
+
+  //Add up all images in testImages array and assign result
+  //to the testImage image
+  testImage.addImages(3, testImages);
+  
+  //Check some certain values
+  cout << "Added values:" << endl;
+  for (int colInd = 0; colInd < 8; colInd += 2)
+  {
+    testRowCol.setRowCol(4, colInd);
+    cout << "Color at ";
+    testRowCol.printRowCol();
+    cout << ": ";
+    if (testImage.getColorAtLocation(testRowCol, testColor))
+    {
+      testColor.printComponentValues();
+    }
+    else
+    {
+      cout << "Invalid Index!";
+    }
+    cout << endl;
+  }
+  
+  for (int rowInd = 0; rowInd < 8; rowInd += 2)
+  {
+    testRowCol.setRowCol(rowInd, 4);
+    cout << "Color at ";
+    testRowCol.printRowCol();
+    cout << ": ";
+    if (testImage.getColorAtLocation(testRowCol, testColor))
+    {
+      testColor.printComponentValues();
+    }
+    else
+    {
+      cout << "Invalid Index!";
+    }
+    cout << endl;
+  }
+  
+  cout << "Printing entire test image:" << endl;
+  testImage.printImage();
+
   return 0;
 }
 #endif
@@ -411,8 +507,10 @@ ImageClass::ImageClass()
   }
 }
 
-bool ImageClass::isLocationValid(int row, int col)
+bool ImageClass::isLocationValid(const RowColumnClass &inRowCol) const
 {
+  int row = inRowCol.getRow();
+  int col = inRowCol.getCol();
   return (row >= 0 && row < IMAGE_ROW && col >= 0 && col < IMAGE_COLUMN);
 }
 
@@ -473,11 +571,9 @@ bool ImageClass::setColorAtLocation(
       const RowColumnClass &inRowCol,
       const ColorClass &inColor)
 {
-  int row = inRowCol.getRow();
-  int col = inRowCol.getCol();
-  if (isLocationValid(row, col))
+  if (isLocationValid(inRowCol))
   {
-    image[row][col] = inColor;
+    image[inRowCol.getRow()][inRowCol.getCol()] = inColor;
     return true;   
   }
   return false;
@@ -486,11 +582,9 @@ bool ImageClass::setColorAtLocation(
 bool ImageClass::getColorAtLocation(const RowColumnClass &inRowCol,
       ColorClass &outColor) const
 {
-  int row = inRowCol.getRow();
-  int col = inRowCol.getCol();
-  if (isLocationValid(row, col))
+  if (isLocationValid(inRowCol))
   {
-    outColor = image[row][col]; 
+    outColor = image[inRowCol.getRow()][inRowCol.getCol()]; 
     return true;
   }
   return false;
@@ -505,8 +599,8 @@ void ImageClass::printImage() const
       if (col != 0)
       {
         cout << "--";
-        image[row][col].printComponentValues();
       }
+        image[row][col].printComponentValues();
     }
     cout << endl;
   } 
