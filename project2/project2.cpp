@@ -3,12 +3,16 @@
 using namespace std;
 
 // Name: Xinyu Zhang(xyuzhang: 42192372)
-// Purpose: 
-// Date: Feb 8th, 2023
+// Purpose: Develop three classes to represent and utilize colors, locations 
+// and images 
+// Date: Feb 14th, 2023
 
 const int MAXIMUM_ALLOWED_COLOR = 1000;
 const int MINIMUM_ALLOWED_COLOR = 0;
 const int COLOR_COMPONENT_NUMBER = 3;
+const int RED_INDEX = 0;
+const int GREEN_INDEX = 1;
+const int BLUE_INDEX = 2;
 const int DEFAULT_INDEX = -99999;
 const int IMAGE_ROW = 10;
 const int IMAGE_COLUMN = 18;
@@ -364,9 +368,10 @@ bool ColorClass::clipColor()
       doClip = true;
     }
   }
-  redVal = colorVal[0];
-  greenVal = colorVal[1];
-  blueVal = colorVal[2];
+
+  redVal = colorVal[RED_INDEX];
+  greenVal = colorVal[GREEN_INDEX];
+  blueVal = colorVal[BLUE_INDEX];
   return doClip; 
 }
 
