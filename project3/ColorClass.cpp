@@ -134,9 +134,9 @@ void ColorClass::printComponentValues() const
   cout << "R: " << redVal << " G: " << greenVal << " B: " << blueVal;
 }
 
-bool ColorClass::readColor(ifstream &inFile, bool &validInputFound)
+bool ColorClass::readColor(ifstream &inFile)
 {
-  validInputFound = false;
+  bool validInputFound = false;
 
   // check if red value is valid
   if (inFile.eof())

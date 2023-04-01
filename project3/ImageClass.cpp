@@ -172,10 +172,6 @@ bool ImageClass::checkPixel(ifstream &inFile)
     pixelMatrix[rInd] = new ColorClass[inCol];
   }  
 
-  ColorClass pixel;
-  int pixelNum = inRow * inCol;   // the default pixel number
-  int count = 0;              // count the pixel numbers when reading the image
-  
   // put pixels into the matrix
   for (int rInd = 0; rInd < inRow; rInd++)
   {
@@ -194,26 +190,23 @@ bool ImageClass::checkPixel(ifstream &inFile)
         return validInputFound;
       }
       
-      if (!pixelMatrix[rInd][cInd].readColor(inFile, validInputFound))
+      if (!pixelMatrix[rInd][cInd].readColor(inFile))
       {
         cout << "Error: Reading image pixel at row: " << rInd 
              << " col: " << cInd << endl;
         return validInputFound;
       }
-
-      count += 1;
     }
   }
-
-  if (count < pixelNum)
+  
+  // check if there are more image pixels in the original file
+  string test;
+  inFile >> test;
+  if (test != "")
   {
-    cout << "Error: Fewer image pixels than expected" << endl;
+    cout << "Error: More image pixels than expected" << endl; 
     return validInputFound;
-  }
-  else if (count > pixelNum)
-  {
-    cout << "Error: More image pixels than expected" << endl;
-  }
+  }   
 
   inFile.close();
   validInputFound = true;

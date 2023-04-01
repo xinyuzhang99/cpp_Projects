@@ -89,7 +89,7 @@ class ColorClass
 
     // Read the RGB values of a pixel and check if they are valid
     // If the RGB values are valid, return true; otherwise return false
-    bool readColor(ifstream &inFile, bool &validInputFound);
+    bool readColor(ifstream &inFile);
     
     // Encode RGB values based on encoding requirements provided
     void encodeRGB(string redEnc, string greenEnc, string blueEnc);
