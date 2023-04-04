@@ -47,6 +47,7 @@ bool ImageClass::checkMagicNumber(ifstream &inFile)
   else if (inFile.fail())
   {
     inFile.clear();
+    inFile.ignore(200, '\n');
     cout << "Error: Failing to read Magic Number" << endl;
     return validInputFound;
   }
@@ -80,6 +81,7 @@ bool ImageClass::checkWidthHeight(ifstream &inFile)
   else if (inFile.fail())
   {
     inFile.clear();
+    inFile.ignore(200, '\n');
     cout << "Error: Failing to read the width of the image" << endl;
     return validInputFound;
   }
@@ -103,6 +105,7 @@ bool ImageClass::checkWidthHeight(ifstream &inFile)
   else if (inFile.fail())
   {
     inFile.clear(); 
+    inFile.ignore(200, '\n');
     cout << "Error: Failing to read the height of the image" << endl;
     return validInputFound;
   }
@@ -134,6 +137,7 @@ bool ImageClass::checkMaxColor(ifstream &inFile)
   else if (inFile.fail())
   {
     inFile.clear(); 
+    inFile.ignore(200, '\n');
     cout << "Error: Failing to read the maximum color value" << endl;
     return validInputFound; 
   }
@@ -185,6 +189,7 @@ bool ImageClass::checkPixel(ifstream &inFile)
       else if (inFile.fail())
       {
         inFile.clear(); 
+        inFile.ignore(200, '\n');
         cout << "Error: Reading image pixel at row: " << rInd 
              << " col: " << cInd << endl;
         return validInputFound;
@@ -222,6 +227,8 @@ bool ImageClass::checkInput(const string &initialFileName)
   bool validInputFound = false;
   if (inFile.fail())
   {
+    inFile.clear();
+    inFile.ignore(200, '\n');
     cout << "Error: Opening file " << initialFileName.c_str() << endl;
     return validInputFound;  
   }
@@ -245,6 +252,8 @@ bool ImageClass::encodeMessage(const string &msgFileName,
   bool validMsgFound = false;
   if (msgFile.fail())
   {
+    msgFile.clear();
+    msgFile.ignore(200, '\n');
     cout << "Error: Opening message file: " << msgFileName.c_str() << endl;
     return validMsgFound;
   }

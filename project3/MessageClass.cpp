@@ -23,6 +23,7 @@ bool MessageClass::checkWidthHeight(ifstream &msgFile)
   else if (msgFile.fail())
   {
     msgFile.clear();
+    msgFile.ignore(200, '\n');
     cout << "Error: Failing to read the width of the message" << endl;
     return validMsgFound;
   }
@@ -41,6 +42,7 @@ bool MessageClass::checkWidthHeight(ifstream &msgFile)
   else if (msgFile.fail()) 
   {
     msgFile.clear();
+    msgFile.ignore(200, '\n'); 
     cout << "Error: Failing to read the height of the message" << endl;
     return validMsgFound;
   }
@@ -80,6 +82,7 @@ bool MessageClass::checkValue(ifstream &msgFile)
       if (msgFile.fail())
       {
         msgFile.clear();
+        msgFile.ignore(200, '\n'); 
         cout << "Error: Reading message value at row: " << rInd
              << " col: " << cInd << endl;
         return validMsgFound;

@@ -58,6 +58,13 @@ int main(int argc, char *argv[])
     PrintMenu();
     cout << "Enter your choice: ";  // Prompt
     cin >> userChoice;
+    if (cin.fail())    // if the user does not provide an integer
+    {
+      cin.clear();
+      cin.ignore(200, '\n');
+      cout << "Error: Please enter an integer" << endl;
+      continue; 
+    }
 
     if (userChoice == ENCODE_MESSAGE_OPTION)
     {

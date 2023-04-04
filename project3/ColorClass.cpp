@@ -146,6 +146,8 @@ bool ColorClass::readColor(ifstream &inFile)
   }
   else if (inFile.fail())
   {
+    inFile.clear();
+    inFile.ignore(200, '\n');
     cout << "Error: Failing to read red value" << endl;
     return validInputFound;
   }
@@ -159,6 +161,8 @@ bool ColorClass::readColor(ifstream &inFile)
   }
   else if (inFile.fail())
   {
+    inFile.clear();
+    inFile.ignore(200, '\n');
     cout << "Error: Failing to read green value" << endl;
     return validInputFound;
   }
@@ -172,6 +176,8 @@ bool ColorClass::readColor(ifstream &inFile)
   }
   else if (inFile.fail())
   {
+    inFile.clear();
+    inFile.ignore(200, '\n');
     cout << "Error: Failing to read blue value" << endl;
     return validInputFound; 
   }
