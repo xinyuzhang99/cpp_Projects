@@ -5,6 +5,10 @@ using namespace std;
 #include "LinkedNodeClass.h"
 #include "SortedListClass.h"
 
+// Name: Xinyu Zhang (xyuzhang: 42192372)
+// Purpose: build a class to store a doubly-linked list in an always-sorted way
+// Date: Apr 4th, 2023
+
 SortedListClass::SortedListClass()
 {
   head = 0;
@@ -34,52 +38,57 @@ void SortedListClass::clear()
   LinkedNodeClass *temp = head;
   LinkedNodeClass *toDelete;
 
-  if (head == 0)
+  while (temp != 0)
   {
-    cout << "The list is already in empty state" << endl;
+    toDelete = temp->getNext();
+    delete temp;
+    temp = toDelete;
   }
-  else
-  {
-    while (temp != 0)
-    {
-      toDelete = temp->getNext();
-      delete temp;
-      temp = toDelete;
-    }
 
-    head = 0;
-    tail = 0;
-  }
+  head = 0;
+  tail = 0;
 }
 
 void SortedListClass::insertValue(const int &valToInsert)
 {
   // create a temp node and find the correct position
   LinkedNodeClass *temp = head;
-  while (temp->getValue() <= valToInsert && temp != 0)
-  {
-    temp = temp -> getNext();
-  }
+  // create the new node to be inserted 
+  LinkedNodeClass *newNodePtr;
 
-  // create the new node to be inserted
-  LinkedNodeClass *insertNode;
-
-  if (temp == head)      // minimum value --> insert at the head
+  if (head == 0 && tail == 0)
   {
-    insertNode = new LinkedNodeClass(0, valToInsert, head);
-  }
-  else if (temp == tail) // maximum value --> insert at the tail
-  {
-    insertNode = new LinkedNodeClass(tail, valToInsert, 0);
+    newNodePtr = new LinkedNodeClass(0, valToInsert, 0);
+    newNodePtr->setBeforeAndAfterPointers();
+    head = newNodePtr;
+    tail = newNodePtr;
   }
   else
   {
-    insertNode = new LinkedNodeClass(temp->getPrev(), valToInsert, 
-                                     temp->getNext());
+    while (temp != 0 && temp->getValue() <= valToInsert)
+    {
+      temp = temp->getNext();
+    }
+
+    if (temp == head)      // minimum value --> insert at the head
+    {
+      newNodePtr = new LinkedNodeClass(0, valToInsert, head);
+      newNodePtr->setBeforeAndAfterPointers(); 
+      head = newNodePtr;
+    }
+    else if (temp == 0)    // maximum value --> insert at the tail
+    {
+      newNodePtr = new LinkedNodeClass(tail, valToInsert, 0);
+      newNodePtr->setBeforeAndAfterPointers(); 
+      tail = newNodePtr;
+    }
+    else
+    {
+      newNodePtr = new LinkedNodeClass(temp->getPrev(), valToInsert, temp);
+      newNodePtr->setBeforeAndAfterPointers(); 
+    }
   }
 
-  // insert the node at the corresponding position
-  insertNode->setBeforeAndAfterPointers();
 }
 
 void SortedListClass::printForward() const
@@ -87,7 +96,7 @@ void SortedListClass::printForward() const
   cout << "Forward List Contents Follow:" << endl;
 
   LinkedNodeClass *temp = head;
-  int count = 1;
+  int count = 0;
   int numSpace;
   
   while (temp != 0)
@@ -103,7 +112,7 @@ void SortedListClass::printForward() const
     int tempVal = temp->getValue();
     cout << tempVal << endl;
 
-    count++;
+    count += 1;
     temp = temp->getNext();
   }
 
@@ -115,7 +124,7 @@ void SortedListClass::printBackward() const
   cout << "Backward List Contents Follow:" << endl;
 
   LinkedNodeClass *temp = tail;
-  int count = 1;
+  int count = 0;
   int numSpace;
   
   while (temp != 0)
@@ -129,7 +138,7 @@ void SortedListClass::printBackward() const
     int tempVal = temp->getValue();
     cout << tempVal << endl;
 
-    count ++;
+    count += 1;
     temp = temp->getPrev();   // move backward this time
   }
 
@@ -141,9 +150,17 @@ bool SortedListClass::removeFront(int &theVal)
   bool didDeleteItem;
   LinkedNodeClass *newHeadPtr;
 
-  if (head == 0)
+  if (head == 0 && tail == 0)
   {
     didDeleteItem = false;
+  }
+  else if (getNumElems() == 1)  // only have one node
+  {
+    theVal = head->getValue();
+    delete head;
+    head = 0;
+    tail = 0;
+    didDeleteItem = true;
   }
   else
   {
@@ -151,6 +168,7 @@ bool SortedListClass::removeFront(int &theVal)
     newHeadPtr = head->getNext();
     delete head;
     head = newHeadPtr;
+    head->setPreviousPointerToNull(); 
 
     didDeleteItem = true;
   }
@@ -163,9 +181,17 @@ bool SortedListClass::removeLast(int &theVal)
   bool didDeleteItem;
   LinkedNodeClass *newTailPtr;
 
-  if (head == 0)
+  if (head == 0 && tail == 0)
   {
     didDeleteItem = false;
+  }
+  else if (getNumElems() == 1)  // only have one node
+  {
+    theVal = tail->getValue();
+    delete tail;
+    head = 0;
+    tail = 0;
+    didDeleteItem = true;
   }
   else
   {
@@ -173,6 +199,7 @@ bool SortedListClass::removeLast(int &theVal)
     newTailPtr = tail->getPrev();
     delete tail;
     tail = newTailPtr;
+    tail->setNextPointerToNull();
 
     didDeleteItem = true;
   }
@@ -198,7 +225,7 @@ bool SortedListClass::getElemAtIndex(const int index, int &outVal) const
   bool didGetItem;
   LinkedNodeClass *temp = head; 
 
-  if (head == 0 || index > getNumElems() - 1)
+  if ((head == 0 && tail == 0) || index > getNumElems() - 1)
   {
     didGetItem = false;
   }

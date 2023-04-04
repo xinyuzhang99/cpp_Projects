@@ -16,25 +16,20 @@ class SortedListClass
   public:
     //Default Constructor. Will properly initialize a list to
     //be an empty list, to which values can be added.
-    SortedListClass(
-      );
+    SortedListClass();
 
     //Copy constructor. Will make a complete (deep) copy of the list, such
     //that one can be changed without affecting the other.
-    SortedListClass(
-      const SortedListClass &rhs
-      );
+    SortedListClass(const SortedListClass &rhs);
 
     //Destructor. Responsible for making sure any dynamic memory
     //associated with an object is freed up when the object is
     //being destroyed.
-    ~SortedListClass(
-      );
+    ~SortedListClass();
 
     //Clears the list to an empty state without resulting in any
     //memory leaks.
-    void clear(
-      );
+    void clear();
 
     //Allows the user to insert a value into the list. Since this
     //is a sorted list, there is no need to specify where in the list
@@ -48,21 +43,19 @@ class SortedListClass
     //important later!
     void insertValue(
       const int &valToInsert //The value to insert into the list
-      );
+    );
 
     //Prints the contents of the list from head to tail to the screen.
     //Begins with a line reading "Forward List Contents Follow:", then
     //prints one list element per line, each indented two spaces, then prints
     //the line "End Of List Contents" to indicate the end of the list.
-    void printForward(
-      ) const;
+    void printForward() const;
  
     //Prints the contents of the list from tail to head to the screen.
     //Begins with a line reading "Backward List Contents Follow:", then
     //prints one list element per line, each indented two spaces, then prints
     //the line "End Of List Contents" to indicate the end of the list.
-    void printBackward(
-      ) const;
+    void printBackward() const;
 
     //Removes the front item from the list and returns the value that
     //was contained in it via the reference parameter. If the list
@@ -73,9 +66,7 @@ class SortedListClass
     //If the list was not empty and the first item was successfully
     //removed, true is returned, and the reference parameter will
     //be set to the item that was removed.
-    bool removeFront(
-      int &theVal
-      );
+    bool removeFront(int &theVal);
 
     //Removes the last item from the list and returns the value that
     //was contained in it via the reference parameter. If the list
@@ -84,13 +75,10 @@ class SortedListClass
     //If the list was not empty and the last item was successfully
     //removed, true is returned, and the reference parameter will
     //be set to the item that was removed.
-    bool removeLast(
-      int &theVal
-      );
+    bool removeLast(int &theVal);
 
     //Returns the number of nodes contained in the list.
-    int getNumElems(
-      ) const;
+    int getNumElems() const;
 
     //Provides the value stored in the node at index provided in the
     //0-based "index" parameter. If the index is out of range, then outVal
@@ -100,7 +88,7 @@ class SortedListClass
     bool getElemAtIndex(
       const int index,
       int &outVal
-      ) const;
+    ) const;
 };
 
 #endif

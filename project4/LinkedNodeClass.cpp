@@ -4,6 +4,11 @@ using namespace std;
 
 #include "LinkedNodeClass.h"
 
+// Name: Xinyu Zhang (xyuzhang: 42192372)
+// Purpose: Develop a class to be the data type for individual nodes of a doubly
+// -linked data structure
+// Date: Apr 4th, 2023
+
 LinkedNodeClass::LinkedNodeClass(LinkedNodeClass *inPrev, const int &inVal,
                                  LinkedNodeClass *inNext)
 {
@@ -41,11 +46,11 @@ void LinkedNodeClass::setBeforeAndAfterPointers()
 {
   if (prevNode != 0)
   {
-    prevNode -> nextNode = this;
+    prevNode->nextNode = this;
   }
  
   if (nextNode != 0)
   {
-    nextNode -> prevNode = this;
+    nextNode->prevNode = this;
   }
 }
