@@ -1,3 +1,8 @@
+#ifndef _FIFOQueueClass_H_
+#define _FIFOQueueClass_H_
+
+#include "LinkedNodeClass.h"
+
 class FIFOQueueClass
 {
   private:
@@ -42,3 +47,5 @@ class FIFOQueueClass
     //memory leaks.
     void clear();
 };
+
+#endif

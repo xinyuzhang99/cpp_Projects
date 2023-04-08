@@ -1,3 +1,8 @@
+#ifndef _LIFOSTACKCLASS_H_
+#define _LIFOSTACKCLASS_H_
+
+#include "LinkedNodeClass.h" 
+
 class LIFOStackClass
 {
   private:
@@ -40,3 +45,5 @@ class LIFOStackClass
     //memory leaks.
     void clear();
 };
+
+#endif

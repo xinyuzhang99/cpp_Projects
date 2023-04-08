@@ -96,23 +96,14 @@ void SortedListClass::printForward() const
   cout << "Forward List Contents Follow:" << endl;
 
   LinkedNodeClass *temp = head;
-  int count = 0;
-  int numSpace;
   
   while (temp != 0)
   {
-    // print put number of spaces
-    numSpace = count * 2;
-    for (int i = 0; i < numSpace; i++)
-    {
-      cout << " ";
-    }
+    cout << "  ";
     
     // print out the current node value
     int tempVal = temp->getValue();
     cout << tempVal << endl;
-
-    count += 1;
     temp = temp->getNext();
   }
 
@@ -124,21 +115,13 @@ void SortedListClass::printBackward() const
   cout << "Backward List Contents Follow:" << endl;
 
   LinkedNodeClass *temp = tail;
-  int count = 0;
-  int numSpace;
   
   while (temp != 0)
   {
-    numSpace = count * 2;
-    for (int i = 0; i < numSpace; i++)
-    {
-      cout << " ";
-    }
+    cout << "  ";
 
     int tempVal = temp->getValue();
     cout << tempVal << endl;
-
-    count += 1;
     temp = temp->getPrev();   // move backward this time
   }
 
