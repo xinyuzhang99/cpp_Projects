@@ -7,42 +7,49 @@ using namespace std;
 // Name: Xinyu Zhang (xyuzhang: 42192372)
 // Purpose: Develop a templated class to be the data type for individual nodes 
 // of a doubly-linked data structure
-// Date: Apr 9th, 2023
+// Date: Apr 11th, 2023
 
 template < class T >
-LinkedNodeClass< T >::LinkedNodeClass(LinkedNodeClass *inPrev, const T &inVal,
-                                 LinkedNodeClass *inNext)
+LinkedNodeClass< T >::LinkedNodeClass(LinkedNodeClass< T > *inPrev, 
+                                      const T &inVal, 
+                                      LinkedNodeClass< T > *inNext)
 {
   prevNode = inPrev;
   nodeVal = inVal;
   nextNode = inNext;
 }
 
-int LinkedNodeClass< T >::getValue() const
+template < class T > 
+T LinkedNodeClass< T >::getValue() const
 {
   return nodeVal;
 }
 
-LinkedNodeClass* LinkedNodeClass< T >::getNext() const
+template < class T > 
+LinkedNodeClass< T >* LinkedNodeClass< T >::getNext() const
 {
   return nextNode;
 }
 
-LinkedNodeClass* LinkedNodeClass< T >::getPrev() const
+template < class T > 
+LinkedNodeClass< T >* LinkedNodeClass< T >::getPrev() const
 {
   return prevNode;
 }
 
+template < class T > 
 void LinkedNodeClass< T >::setNextPointerToNull()
 {
   nextNode = 0;
 }
 
+template < class T > 
 void LinkedNodeClass< T >::setPreviousPointerToNull()
 {
   prevNode = 0;
 }
 
+template < class T > 
 void LinkedNodeClass< T >::setBeforeAndAfterPointers()
 {
   if (prevNode != 0)

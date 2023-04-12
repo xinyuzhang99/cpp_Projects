@@ -7,10 +7,10 @@ template < class T >
 class FIFOQueueClass
 {
   private:
-    LinkedNodeClass *head; //Points to the first node in a queue, or NULL
+    LinkedNodeClass< T > *head; //Points to the first node in a queue, or NULL
                            //if queue is empty.
 
-    LinkedNodeClass *tail; //Points to the last node in a queue, or NULL
+    LinkedNodeClass< T > *tail; //Points to the last node in a queue, or NULL
                            //if queue is empty.
 
   public:
@@ -38,7 +38,7 @@ class FIFOQueueClass
     //printed on one line, using a single space to separate values,
     //and a single newline character is printed at the end. Notice
     //that this is a different output format as compared to the
-    //sorted list’s print functionality!
+    //sorted list's print functionality!
     void print() const;
 
     //Returns the number of nodes contained in the queue.

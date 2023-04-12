@@ -17,35 +17,38 @@ FIFOQueueClass< T >::FIFOQueueClass()
   tail = 0;
 }
 
+template < class T >
 FIFOQueueClass< T >::~FIFOQueueClass()
 {
   clear();
 }
 
+template < class T > 
 void FIFOQueueClass< T >::enqueue(const T &newItem)
 {
-  LinkedNodeClass *enqueItem;  // create the new node
+  LinkedNodeClass< T > *enqueItem;  // create the new node
 
   if (head == 0 && tail == 0)
   {
-    enqueItem = new LinkedNodeClass(0, newItem, 0);
+    enqueItem = new LinkedNodeClass< T >(0, newItem, 0);
     enqueItem->setBeforeAndAfterPointers();
     head = enqueItem;
     tail = enqueItem;
   }
   else
   {
-    enqueItem = new LinkedNodeClass(tail, newItem, 0);
+    enqueItem = new LinkedNodeClass< T >(tail, newItem, 0);
     enqueItem->setBeforeAndAfterPointers();  
     tail = enqueItem; 
   }
 }
 
+template < class T > 
 bool FIFOQueueClass< T >::dequeue(T &outItem)
 {
   // remove the node at the head
   bool didDeleteItem;
-  LinkedNodeClass *newHeadPtr;
+  LinkedNodeClass< T > *newHeadPtr;
 
   if (head == 0 && tail == 0)
   {
@@ -73,9 +76,10 @@ bool FIFOQueueClass< T >::dequeue(T &outItem)
   return didDeleteItem;
 }
 
+template < class T > 
 void FIFOQueueClass< T >::print() const
 {
-  LinkedNodeClass *temp;
+  LinkedNodeClass< T > *temp;
 
   if (head == 0 && tail == 0)
   {
@@ -93,10 +97,11 @@ void FIFOQueueClass< T >::print() const
   }
 }
 
+template < class T > 
 int FIFOQueueClass< T >::getNumElems() const
 {
   int count = 0;
-  LinkedNodeClass *temp = head;
+  LinkedNodeClass< T > *temp = head;
 
   while (temp != 0)
   {
@@ -106,14 +111,15 @@ int FIFOQueueClass< T >::getNumElems() const
   return count;
 }
 
+template < class T > 
 void FIFOQueueClass< T >::clear()
 {
-  LinkedNodeClass *temp = head;
-  LinkedNodeClass *toDelete;
+  LinkedNodeClass< T > *temp = head;
+  LinkedNodeClass< T > *toDelete;
 
   while (temp != 0)
   {
-    toDelete = head->getNext();
+    toDelete = temp->getNext();
     delete temp;
     temp = toDelete;
   }

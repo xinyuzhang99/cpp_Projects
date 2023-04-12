@@ -7,11 +7,11 @@ template < class T >
 class LinkedNodeClass
 {
   private:
-    LinkedNodeClass *prevNode; //Will point to the node that comes before
+    LinkedNodeClass< T > *prevNode; //Will point to the node that comes before
                                //this node in the data structure. Will be
                                //NULL if this is the first node.
-    int nodeVal;               //The value contained within this node.
-    LinkedNodeClass *nextNode; //Will point to the node that comes after
+    T nodeVal;               //The value contained within this node.
+    LinkedNodeClass< T > *nextNode; //Will point to the node that comes after
                                //this node in the data structure. Will be
                                //NULL if this is the last node.
   public:
@@ -19,19 +19,19 @@ class LinkedNodeClass
     //newly created node's previous pointer, value, and next pointer,
     //and assigns them.
     LinkedNodeClass(
-      LinkedNodeClass *inPrev, //Address of node that comes before this one
+      LinkedNodeClass< T > *inPrev, //Address of node that comes before this one
       const T &inVal,        //Value to be contained in this node
-      LinkedNodeClass *inNext  //Address of node that comes after this one
+      LinkedNodeClass< T > *inNext  //Address of node that comes after this one
     );
 
     //Returns the value stored within this node.
-    int getValue() const;
+    T getValue() const;
 
     //Returns the address of the node that follows this node.
-    LinkedNodeClass* getNext() const;
+    LinkedNodeClass< T >* getNext() const;
 
     //Returns the address of the node that comes before this node.
-    LinkedNodeClass* getPrev() const;
+    LinkedNodeClass< T >* getPrev() const;
 
     //Sets the object's next node pointer to NULL.
     void setNextPointerToNull();

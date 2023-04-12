@@ -10,10 +10,10 @@ template < class T >
 class SortedListClass
 {
   private:
-    LinkedNodeClass *head; //Points to the first node in a list, or NULL
+    LinkedNodeClass< T > *head; //Points to the first node in a list, or NULL
                            //if list is empty.
 
-    LinkedNodeClass *tail; //Points to the last node in a list, or NULL
+    LinkedNodeClass< T > *tail; //Points to the last node in a list, or NULL
                            //if list is empty.
 
   public:
@@ -23,7 +23,7 @@ class SortedListClass
 
     //Copy constructor. Will make a complete (deep) copy of the list, such
     //that one can be changed without affecting the other.
-    SortedListClass(const SortedListClass &rhs);
+    SortedListClass(const SortedListClass< T > &rhs);
 
     //Destructor. Responsible for making sure any dynamic memory
     //associated with an object is freed up when the object is

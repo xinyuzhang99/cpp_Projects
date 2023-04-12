@@ -16,7 +16,8 @@ SortedListClass< T >::SortedListClass()
   tail = 0;
 }
 
-SortedListClass< T >::SortedListClass(const SortedListClass &rhs)
+template < class T > 
+SortedListClass< T >::SortedListClass(const SortedListClass< T > &rhs)
 {
   head = 0;
   tail = 0;
@@ -29,15 +30,17 @@ SortedListClass< T >::SortedListClass(const SortedListClass &rhs)
   } 
 }
 
+template < class T > 
 SortedListClass< T >::~SortedListClass()
 {
   clear();
 }
 
+template < class T > 
 void SortedListClass< T >::clear()
 {
-  LinkedNodeClass *temp = head;
-  LinkedNodeClass *toDelete;
+  LinkedNodeClass< T > *temp = head;
+  LinkedNodeClass< T > *toDelete;
 
   while (temp != 0)
   {
@@ -50,16 +53,17 @@ void SortedListClass< T >::clear()
   tail = 0;
 }
 
+template < class T > 
 void SortedListClass< T >::insertValue(const T &valToInsert)
 {
   // create a temp node and find the correct position
-  LinkedNodeClass *temp = head;
+  LinkedNodeClass< T > *temp = head;
   // create the new node to be inserted 
-  LinkedNodeClass *newNodePtr;
+  LinkedNodeClass< T > *newNodePtr;
 
   if (head == 0 && tail == 0)
   {
-    newNodePtr = new LinkedNodeClass(0, valToInsert, 0);
+    newNodePtr = new LinkedNodeClass< T >(0, valToInsert, 0);
     newNodePtr->setBeforeAndAfterPointers();
     head = newNodePtr;
     tail = newNodePtr;
@@ -73,30 +77,31 @@ void SortedListClass< T >::insertValue(const T &valToInsert)
 
     if (temp == head)      // minimum value --> insert at the head
     {
-      newNodePtr = new LinkedNodeClass(0, valToInsert, head);
+      newNodePtr = new LinkedNodeClass< T >(0, valToInsert, head);
       newNodePtr->setBeforeAndAfterPointers(); 
       head = newNodePtr;
     }
     else if (temp == 0)    // maximum value --> insert at the tail
     {
-      newNodePtr = new LinkedNodeClass(tail, valToInsert, 0);
+      newNodePtr = new LinkedNodeClass< T >(tail, valToInsert, 0);
       newNodePtr->setBeforeAndAfterPointers(); 
       tail = newNodePtr;
     }
     else
     {
-      newNodePtr = new LinkedNodeClass(temp->getPrev(), valToInsert, temp);
+      newNodePtr = new LinkedNodeClass< T >(temp->getPrev(), valToInsert, temp);
       newNodePtr->setBeforeAndAfterPointers(); 
     }
   }
 
 }
 
+template < class T > 
 void SortedListClass< T >::printForward() const
 {
   cout << "Forward List Contents Follow:" << endl;
 
-  LinkedNodeClass *temp = head;
+  LinkedNodeClass< T > *temp = head;
   
   while (temp != 0)
   {
@@ -111,11 +116,12 @@ void SortedListClass< T >::printForward() const
   cout << "End Of List Contents" << endl;
 }
 
+template < class T > 
 void SortedListClass< T >::printBackward() const
 {
   cout << "Backward List Contents Follow:" << endl;
 
-  LinkedNodeClass *temp = tail;
+  LinkedNodeClass< T > *temp = tail;
   
   while (temp != 0)
   {
@@ -129,10 +135,11 @@ void SortedListClass< T >::printBackward() const
   cout << "End Of List Contents" << endl;
 }
 
+template < class T > 
 bool SortedListClass< T >::removeFront(T &theVal)
 {
   bool didDeleteItem;
-  LinkedNodeClass *newHeadPtr;
+  LinkedNodeClass< T > *newHeadPtr;
 
   if (head == 0 && tail == 0)
   {
@@ -160,10 +167,11 @@ bool SortedListClass< T >::removeFront(T &theVal)
   return didDeleteItem;
 }
 
+template < class T > 
 bool SortedListClass< T >::removeLast(T &theVal)
 {
   bool didDeleteItem;
-  LinkedNodeClass *newTailPtr;
+  LinkedNodeClass< T > *newTailPtr;
 
   if (head == 0 && tail == 0)
   {
@@ -191,10 +199,11 @@ bool SortedListClass< T >::removeLast(T &theVal)
   return didDeleteItem;
 }
 
+template < class T > 
 int SortedListClass< T >::getNumElems() const
 {
   int count = 0;
-  LinkedNodeClass *temp = head;
+  LinkedNodeClass< T > *temp = head;
 
   while (temp != 0)
   {
@@ -204,10 +213,11 @@ int SortedListClass< T >::getNumElems() const
   return count;
 }
 
+template < class T > 
 bool SortedListClass< T >::getElemAtIndex(const int index, T &outVal) const
 {
   bool didGetItem;
-  LinkedNodeClass *temp = head; 
+  LinkedNodeClass< T > *temp = head; 
 
   if ((head == 0 && tail == 0) || index > getNumElems() - 1)
   {
