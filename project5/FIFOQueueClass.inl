@@ -113,17 +113,14 @@ int FIFOQueueClass< T >::getNumElems() const
 
 template < class T > 
 void FIFOQueueClass< T >::clear()
-{
-  LinkedNodeClass< T > *temp = head;
-  LinkedNodeClass< T > *toDelete;
-
-  while (temp != 0)
+{ 
+  T outItem;
+  while (getNumElems() != 0)
   {
-    toDelete = temp->getNext();
-    delete temp;
-    temp = toDelete;
+    dequeue(outItem);
   }
 
   head = 0;
   tail = 0;
 }
+

@@ -38,15 +38,15 @@ SortedListClass< T >::~SortedListClass()
 
 template < class T > 
 void SortedListClass< T >::clear()
-{
+{ 
   LinkedNodeClass< T > *temp = head;
-  LinkedNodeClass< T > *toDelete;
+  LinkedNodeClass< T > *toDelete = head;
 
   while (temp != 0)
   {
-    toDelete = temp->getNext();
-    delete temp;
-    temp = toDelete;
+    temp = temp->getNext();
+    delete toDelete;
+    toDelete = temp;
   }
 
   head = 0;
